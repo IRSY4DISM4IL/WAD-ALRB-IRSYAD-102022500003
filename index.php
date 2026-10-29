@@ -2,19 +2,29 @@
 include 'koneksi.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $nomor      = $POST['Nomor'];
-    $ruangan    = $POST['Ruangan'];
-    $jenis      = $POST['Jenis'];
-    $gedung     = $POST['Gedung'];
+    $nomor_ruangan   = $_POST['nomor_ruangan'];
+    $nama_ruangan    = $_POST['Ruangan'];     
+    $jenis_poli      = $_POST['Jenis'];       
+    $lokasi_gedung   = $_POST['Gedung'];       
 
-    $query      = "INSERT INTO ruangan (Nomor, Nama_Ruangan, Jenis_Poli, Lokasi_Gedung) VALUE ('$Nomor', '$Ruangan', '$Jenis', '$Gedung')";
-    $simpan     mysqli_query($koneksii, $query);
+    $nomor_alat      = $_POST['nomor_alat'];
+    $nama_alat       = $_POST['Alat'];         
+    $jumlah_alat     = $_POST['Jumlah'];       
+    $kondisi_alat    = $_POST['Kondisi'];      
 
-    if ($simpan) {
+    $query_ruangan = "INSERT INTO ruangan (nomor, nama_ruangan, jenis_poli, lokasi_gedung) 
+                      VALUES ('$nomor_ruangan', '$nama_ruangan', '$jenis_poli', '$lokasi_gedung')";
+    $simpan_ruangan = mysqli_query($koneksi, $query_ruangan);
+
+    $query_alat = "INSERT INTO alat_medis (nomor, nama_alat, jumlah, kondisi) 
+                   VALUES ('$nomor_alat', '$nama_alat', '$jumlah_alat', '$kondisi_alat')";
+    $simpan_alat = mysqli_query($koneksi, $query_alat);
+
+    if ($simpan_ruangan && $simpan_alat) {
         header("Location: read.php");
         exit();
     } else {
-        echo "Gagal simpan data!: " . mysqli_error($koneksi);
+        echo "Gagal menyimpan data: " . mysqli_error($koneksi);
     }
 }
 ?>
@@ -32,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div id="form-pasien" class="container my-4">
 
             <h2>DATA RUANGAN POLIKLINIK</h2>
+
             <form action="read.php" method="post">
 
                 <table width="90%" border="1" cellspacing="0" class="table table-bordered my-3">
@@ -45,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </thead>
                     <tbody>
                         <tr>
-                            <td><input type="number" name="nomor" id="nomor" class="form-control" required></td>
+                            <td><input type="number" name="nomor_ruangan" id="nomor" class="form-control" required></td>
                             <td><input type="text" name="Ruangan" id="Ruangan" class="form-control" required></td>
                             <td>
                                 <select name="Jenis" id="Jenis" class="form-select">
@@ -55,6 +66,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 </select>
                             </td>
                             <td><input type="text" name="Gedung" id="Gedung" class="form-control" required></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table width="90%" border="1" cellspacing="0" class="table table-bordered my-3">
+                    <thead>
+                        <tr>
+                            <th>Nomor</th>            
+                            <th><label for="Alat">Nama Alat Medis</label></th>
+                            <th><label for="Jumlah">Jumlah</label></th>
+                            <th><label for="Kondisi">Kodisi</label></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="number" name="nomor_alat" id="nomor" class="form-control" required></td>
+                            <td><input type="text" name="Alat" id="Alat" class="form-control" required></td>
+                            <td><input type="number" name="Jumlah" id="Jumlah" class="form-control" required></td>
+                            <td>
+                                <select name="Kondisi" id="Jenis" class="form-select">
+                                    <option value="Baik">Baik</option>
+                                    <option value="Kotor">Kotor</option>
+                                    <option value="Rusak">Rusak</option>
+                                </select>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

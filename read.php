@@ -7,7 +7,7 @@ if (isset($_POST['hapus_semua'])) {
     exit();
 }
 
-$query = mysqli_query($koneksi, "SELECT * FROM ruangan ORDER BY id ASC");
+$query = mysqli_query($koneksi, "SELECT * FROM ruangan ORDER BY Nomor ASC");
 ?>
 
 <!DOCTYPE html>
